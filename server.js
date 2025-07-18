@@ -44,3 +44,16 @@ app.get('/lihat-log', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server aktif di port ${PORT}`);
 });
+
+app.get('/hapus-log', (req, res) => {
+  const logPath = path.join('/tmp', 'logins.txt');
+
+  fs.unlink(logPath, (err) => {
+    if (err) {
+      console.error('Gagal hapus log:', err);
+      return res.status(500).send('Gagal hapus log atau file tidak ditemukan');
+    }
+    res.send('Log berhasil dihapus!');
+  });
+});
+
